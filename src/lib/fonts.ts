@@ -4,14 +4,14 @@ const dmSerifDisplay = DM_Serif_Display({
   subsets: ['latin'],
   weight: '400',
   style: ['normal', 'italic'],
-  variable: '--font-heading-next',
+  variable: '--font-heading',
   display: 'swap',
 });
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600'],
-  variable: '--font-body-next',
+  variable: '--font-body',
   display: 'swap',
 });
 

@@ -1,4 +1,4 @@
-export const SITE_NAME = 'OhhWells Starter';
-export const SITE_URL = 'https://example.com';
-export const SITE_DESCRIPTION =
-  'A minimal base template for every vibe-coded OhhWells site.';
+import { globalContent } from '@/content/global';
+
+export const SITE_NAME = globalContent.siteName;
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
