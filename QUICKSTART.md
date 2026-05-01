@@ -8,36 +8,24 @@ That single rule enables the rest: predictable structure, safe handoffs, and a p
 
 ---
 
-# OhhWells Starter — Vibe Coding Workflow
+## Where this guide lives (share this link)
 
-This starter is built around one decision tenet:
-
-> **The component receives content — it never fetches content.**
-
-That single rule enables the rest: predictable structure, safe handoffs, and a platform-managed content layer.
+This guide is stored in the repo as `QUICKSTART.md`. It’s written for external vibe-coders building client sites from this starter.
 
 ---
 
 ## Prerequisites
 
-Before starting, make sure you have:
-
-- **Node.js 18+** (recommended: latest LTS)
-- **npm / pnpm / yarn**
-- **Git** (for cloning and version control)
-- **OhhWells CLI** (for deployment)
+- **Node.js**: **18.17+** (Node 20+ recommended)
+- **npm**: comes with Node (or use pnpm/yarn if your team standardizes it)
+- **Git**
+- **OhhWells access (for platform deploy / Content API)**:
+  - Access credentials for the OhhWells deploy + Content API (team will provide)
+  - A **test subdomain** to publish to (e.g. `yourname-starter-test`)
+- **Optional (non-platform deploy)**:
+  - **Vercel CLI** if you want to publish to `*.vercel.app`: `npm i -g vercel`
 
 ---
-
-### Install OhhWells CLI
-
-If you're using the local repo:
-
-```bash
-cd ohhwells-deploy
-npm install
-npm run build
-npm link
 
 ## Start a new site from `ohhwells-starter`
 
@@ -86,37 +74,86 @@ npm run start
 - **Components do not import content** from `./content` (or from anywhere)
 - **Components receive typed props only**
 
-### Example
+### Why this exists (the decision tenet)
 
-Content lives in `content/home.ts`:
+If a section component fetches/imports its own content, you can’t safely replace content via a platform later (and content becomes scattered across JSX). Keeping all content in `content/` makes the site:
+
+- editable by a platform without touching your code
+- easy to audit and review
+- safer to refactor (content wiring is obvious)
+
+### Example: create content → define types → build section → wire it on the page
+
+#### 1) Create or edit a content file (data only)
+
+Content lives in `content/home.ts` (or `content/<page>.ts`):
 
 ```ts
-export const homeContent = {
+import type { HomeContent } from '@/types/content';
+
+export const homeContent: HomeContent = {
   hero: {
-    headline: "Hello",
-    subheadline: "World",
-    ctaText: "Contact",
-    ctaLink: "/contact"
-  }
+    headline: 'Hello',
+    subheadline: 'World',
+    ctaText: 'Contact',
+    ctaLink: '/contact',
+  },
+  // ...
+};
+```
+
+#### 2) Define a section prop type (typed props)
+
+All content shapes live in `src/types/content.ts` so the Content API can serve the same shape later.
+
+Example: `src/components/sections/Hero/types.ts` is just a typed alias:
+
+```ts
+import type { HeroContent } from '@/types/content';
+
+export type HeroProps = HeroContent;
+```
+
+#### 3) Write a section component that accepts typed props (no content imports)
+
+`src/components/sections/Hero/Hero.tsx`:
+
+```tsx
+import type { HeroProps } from './types';
+
+export function Hero({ headline, subheadline }: HeroProps) {
+  return (
+    <section className="hero">
+      <h1 className="hero__headline">{headline}</h1>
+      <p className="hero__sub">{subheadline}</p>
+    </section>
+  );
 }
 ```
 
-Page imports content and passes it as props:
+#### 4) Wire content into the page (this is where content is imported)
+
+`src/app/page.tsx` imports content and passes it down as props:
 
 ```tsx
-import { homeContent } from '@/content/home'
-import { Hero } from '@/components/sections/Hero'
+import { homeContent } from '@/content/home';
+import { Hero } from '@/components/sections/Hero';
 
 export default function Page() {
-  return <Hero {...homeContent.hero} />
+  return <Hero {...homeContent.hero} />;
 }
 ```
 
-Component only consumes props (no content imports):
+### Before/after: the mistake we never allow
+
+Bad (breaks ownership + platform editing later):
 
 ```tsx
-export function Hero(props: HeroProps) {
-  return <h1>{props.headline}</h1>
+// ❌ Don't do this inside a section component
+import { homeContent } from '@/content/home';
+
+export function Hero() {
+  return <h1>{homeContent.hero.headline}</h1>;
 }
 ```
 
@@ -130,19 +167,112 @@ export function Hero(props: HeroProps) {
 - **No hardcoded colors/fonts** in components
 - Styling uses **CSS variables** like `var(--color-primary)` and `var(--font-body)`
 
-### Where variables come from
+### Edit the brand (single source of truth)
 
-- `src/providers/BrandProvider.tsx` injects `content/brand.ts` tokens into `:root` as CSS variables.
-- The app is wrapped in `BrandProvider` in `src/app/layout.tsx`.
+All visual tokens (colors, fonts, spacing, radii) live here:
 
-### Change the brand
+```ts
+import type { Brand } from '@/types/content';
 
-Edit `content/brand.ts`, for example:
+export const brand: Brand = {
+  colors: {
+    primary: '#0F0F0F',
+    accent: '#C8B89A',
+    background: '#FFFFFF',
+    // ...
+  },
+  fonts: {
+    heading: "'DM Serif Display', serif",
+    body: "'DM Sans', sans-serif",
+  },
+  spacing: {
+    section: '7rem',
+    container: '1200px',
+    gap: '1.5rem',
+  },
+  borderRadius: {
+    md: '0.5rem',
+    // ...
+  },
+};
+```
 
-- Change `colors.primary`
-- Change `fonts.heading` / `fonts.body`
+### How BrandProvider generates CSS variables (real code)
 
-Refresh the page — the entire UI should update without touching components.
+`src/providers/BrandProvider.tsx` converts the tokens into `:root` variables with consistent naming:
+
+```tsx
+import { brand } from '@/content/brand';
+
+const categoryPrefix: Record<string, string> = {
+  colors: 'color',
+  fonts: 'font',
+  spacing: 'spacing',
+  borderRadius: 'radius',
+};
+
+function buildRootCssVariables() {
+  const cssVars: Record<string, string> = {};
+
+  for (const [category, values] of Object.entries(brand)) {
+    const prefix = categoryPrefix[category] || category;
+    for (const [key, value] of Object.entries(values as Record<string, string>)) {
+      cssVars[`--${prefix}-${key}`] = value;
+    }
+  }
+
+  const declarations = Object.entries(cssVars)
+    .map(([k, v]) => `${k}: ${v};`)
+    .join('\n');
+
+  return `:root {\n${declarations}\n}\n`;
+}
+
+export function BrandProvider({ children }: { children: React.ReactNode }) {
+  const cssText = buildRootCssVariables();
+  return (
+    <>
+      <style data-ohhwells-brand>{cssText}</style>
+      {children}
+    </>
+  );
+}
+```
+
+It’s mounted once in `src/app/layout.tsx`, wrapping the whole app:
+
+```tsx
+import { BrandProvider } from '@/providers/BrandProvider';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <BrandProvider>{children}</BrandProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+### How sections “use the brand” (no hardcoded values)
+
+Sections should use class-based styling, and CSS uses variables. Example from `src/styles/globals.css`:
+
+```css
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-onPrimary);
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-background);
+}
+```
+
+**Result:** changing `content/brand.ts` changes the entire site’s look without editing any component code.
 
 ---
 
@@ -153,21 +283,43 @@ Refresh the page — the entire UI should update without touching components.
 
 The starter’s job is to keep those boundaries clean.
 
+### What happens after handoff (important)
+
+- **Developer can redeploy code** (new sections/layout/features) without overwriting client content, because content is owned by the platform layer.
+- **Client/platform can edit content + brand** (via the editor / Content API) without touching the developer’s code.
+
 ---
 
-## Decision tenet explained
+## Vibe-code customisations (safe workflow)
 
-When components fetch/import content directly:
+This is the recommended workflow when you “vibe code” a new client site from the starter.
 
-- content becomes scattered and un-auditable
-- it becomes impossible to safely override content from a platform
-- refactors break “random pages” because content coupling is hidden
+### Step 1: Reskin via `content/brand.ts` first
 
-When components only receive typed props:
+- Update **colors** (`primary`, `accent`, `background`, `text`, etc.)
+- Update **fonts** (`heading`, `body`)
+- Update **spacing / radius** if needed
 
-- content is centralized and replaceable
-- the platform can own data without touching code
-- sections become reusable building blocks
+Only after the brand feels right, start touching components.
+
+### Step 2: Replace copy/images in `content/*.ts`
+
+- Update `content/global.ts` (nav, footer, socials, logo text)
+- Update page content (`home.ts`, `about.ts`, `services.ts`, `contact.ts`)
+- Keep content as plain data (no JSX, no React nodes)
+
+### Step 3: Add/modify sections (typed props only)
+
+- Add a new prop type to `src/types/content.ts`
+- Add data to the relevant `content/*.ts`
+- Create a section component under `src/components/sections/<SectionName>/`
+- Wire it in the page file (`src/app/**/page.tsx`) by passing props
+
+### Step 4: Sanity checks before deploy
+
+- `npm run build` passes
+- No hardcoded colors/fonts in components
+- No section imports `@/content/*`
 
 ---
 
@@ -177,8 +329,84 @@ When components only receive typed props:
   - Bad: `import { homeContent } from '@/content/home'` inside `Hero.tsx`
 - **Hardcoding colors**
   - Bad: `style={{ color: '#fff' }}` or CSS `color: #fff`
+- **Hardcoding fonts**
+  - Bad: `font-family: 'Inter'` in a component stylesheet instead of `var(--font-body)` / `var(--font-heading)`
 - **Mixing code and data**
   - Bad: putting page copy inside `src/components/...`
+
+---
+
+## End-to-end test (follow this exactly)
+
+This is the “from starter → published site” workflow. If any step fails, fix the friction before considering the guide complete.
+
+### 1) Create a new site folder from the starter
+
+```powershell
+Copy-Item -Recurse -Force ohhwells-starter my-test-site
+cd my-test-site
+```
+
+### 2) Install and run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Verify `http://localhost:3000` loads.
+
+### 3) Brand change verification (required)
+
+Edit `content/brand.ts`:
+
+- Change `colors.primary` to something obvious (e.g. `#0057FF`)
+- Change `colors.accent` to something obvious (e.g. `#FF3D81`)
+- Optionally change `fonts.heading` / `fonts.body`
+
+Verify in the browser:
+
+- Primary buttons + dark sections update (driven by `var(--color-primary)`)
+- Accent text (eyebrows, accents) updates (driven by `var(--color-accent)`)
+- Body + headings update if you changed fonts (driven by `var(--font-body)` / `var(--font-heading)`)
+
+### 4) Production build check (required)
+
+```bash
+npm run build
+npm run start
+```
+
+Verify `http://localhost:3000` still works in production mode.
+
+### 5) Publish to a test subdomain
+
+Choose one:
+
+#### Option A (recommended): publish to Vercel `*.vercel.app`
+
+Prereq: `npm i -g vercel`
+
+```bash
+vercel login
+vercel
+vercel --prod
+```
+
+Vercel will print a public URL like `https://<project>.vercel.app` (your test subdomain).
+
+#### Option B: publish via OhhWells platform deploy (if you have access)
+
+- Ensure `ohhwells.json` exists at the repo root and set:
+  - `subdomain`: your test subdomain
+  - `apiUrl`: the OhhWells API base URL provided by the platform team
+- Run the platform deploy command your team provides (CLI + auth required).
+
+### 6) Verify the published site
+
+- Public URL loads
+- Brand changes are visible on multiple sections (not just one component)
+- No runtime errors in console
 
 ---
 
@@ -188,83 +416,14 @@ When components only receive typed props:
   - Ensure you’re importing content via `@/content/...` and that `tsconfig.json` has the `@/content/*` path.
 - **Brand changes don’t apply**
   - Confirm `BrandProvider` is used in `src/app/layout.tsx`
-  - Confirm you’re changing `content/brand.ts` (not `src/content/brand.ts` re-export)
-- **Deploy CLI says not logged in**
-  - Run `ohhwells login` (see deploy section)
-
----
-
-## Deploy using `ohhwells-deploy`
-
-### What it does
-
-The deploy CLI:
-
-- runs `npx next build`
-- zips the project source (excluding `node_modules`, `.next`, `.git`, `.env`, etc.)
-- uploads the zip to the OhhWells API for deployment
-
-### Install/build the CLI (local repo usage)
-
-From repo root:
-
-```bash
-cd ohhwells-deploy
-npm install
-npm run build
-```
-
-You can run it via node:
-
-```bash
-node dist/cli.js --help
-```
-
-Or link it globally (optional):
-
-```bash
-npm link
-ohhwells --help
-```
-
-### Configure your site subdomain
-
-In your site root (`my-new-site/`), create `ohhwells.json`:
-
-```json
-{
-  "subdomain": "your-test-subdomain"
-}
-```
-
-### Login
-
-```bash
-ohhwells login
-```
-
-### Deploy
-
-From the site root:
-
-```bash
-ohhwells deploy
-```
-
-Or explicitly:
-
-```bash
-ohhwells deploy --site your-test-subdomain
-```
+  - Confirm you’re changing `content/brand.ts` (not `src/content/brand.ts`)
+- **Vercel deploy fails**
+  - Run `vercel login`
+  - Ensure your repo has no secrets committed (don’t deploy `.env`)
 
 ---
 
 ## Verify production
-
-After deploy completes, the CLI prints:
-
-- **Public URL** (OhhWells domain)
-- **Vercel URL** (underlying deployment)
 
 Verification checklist:
 
