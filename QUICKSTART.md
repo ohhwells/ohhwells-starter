@@ -89,14 +89,14 @@ If a section component fetches/imports its own content, you can’t safely repla
 Content lives in `content/home.ts` (or `content/<page>.ts`):
 
 ```ts
-import type { HomeContent } from '@/types/content';
+import type { HomeContent } from "@/types/content";
 
 export const homeContent: HomeContent = {
   hero: {
-    headline: 'Hello',
-    subheadline: 'World',
-    ctaText: 'Contact',
-    ctaLink: '/contact',
+    headline: "Hello",
+    subheadline: "World",
+    ctaText: "Contact",
+    ctaLink: "/contact",
   },
   // ...
 };
@@ -109,7 +109,7 @@ All content shapes live in `src/types/content.ts` so the Content API can serve t
 Example: `src/components/sections/Hero/types.ts` is just a typed alias:
 
 ```ts
-import type { HeroContent } from '@/types/content';
+import type { HeroContent } from "@/types/content";
 
 export type HeroProps = HeroContent;
 ```
@@ -119,7 +119,7 @@ export type HeroProps = HeroContent;
 `src/components/sections/Hero/Hero.tsx`:
 
 ```tsx
-import type { HeroProps } from './types';
+import type { HeroProps } from "./types";
 
 export function Hero({ headline, subheadline }: HeroProps) {
   return (
@@ -136,8 +136,8 @@ export function Hero({ headline, subheadline }: HeroProps) {
 `src/app/page.tsx` imports content and passes it down as props:
 
 ```tsx
-import { homeContent } from '@/content/home';
-import { Hero } from '@/components/sections/Hero';
+import { homeContent } from "@/content/home";
+import { Hero } from "@/components/sections/Hero";
 
 export default function Page() {
   return <Hero {...homeContent.hero} />;
@@ -150,7 +150,7 @@ Bad (breaks ownership + platform editing later):
 
 ```tsx
 // ❌ Don't do this inside a section component
-import { homeContent } from '@/content/home';
+import { homeContent } from "@/content/home";
 
 export function Hero() {
   return <h1>{homeContent.hero.headline}</h1>;
@@ -172,13 +172,13 @@ export function Hero() {
 All visual tokens (colors, fonts, spacing, radii) live here:
 
 ```ts
-import type { Brand } from '@/types/content';
+import type { Brand } from "@/types/content";
 
 export const brand: Brand = {
   colors: {
-    primary: '#0F0F0F',
-    accent: '#C8B89A',
-    background: '#FFFFFF',
+    primary: "#0F0F0F",
+    accent: "#C8B89A",
+    background: "#FFFFFF",
     // ...
   },
   fonts: {
@@ -186,12 +186,12 @@ export const brand: Brand = {
     body: "'DM Sans', sans-serif",
   },
   spacing: {
-    section: '7rem',
-    container: '1200px',
-    gap: '1.5rem',
+    section: "7rem",
+    container: "1200px",
+    gap: "1.5rem",
   },
   borderRadius: {
-    md: '0.5rem',
+    md: "0.5rem",
     // ...
   },
 };
@@ -202,13 +202,13 @@ export const brand: Brand = {
 `src/providers/BrandProvider.tsx` converts the tokens into `:root` variables with consistent naming:
 
 ```tsx
-import { brand } from '@/content/brand';
+import { brand } from "@/content/brand";
 
 const categoryPrefix: Record<string, string> = {
-  colors: 'color',
-  fonts: 'font',
-  spacing: 'spacing',
-  borderRadius: 'radius',
+  colors: "color",
+  fonts: "font",
+  spacing: "spacing",
+  borderRadius: "radius",
 };
 
 function buildRootCssVariables() {
@@ -216,14 +216,16 @@ function buildRootCssVariables() {
 
   for (const [category, values] of Object.entries(brand)) {
     const prefix = categoryPrefix[category] || category;
-    for (const [key, value] of Object.entries(values as Record<string, string>)) {
+    for (const [key, value] of Object.entries(
+      values as Record<string, string>,
+    )) {
       cssVars[`--${prefix}-${key}`] = value;
     }
   }
 
   const declarations = Object.entries(cssVars)
     .map(([k, v]) => `${k}: ${v};`)
-    .join('\n');
+    .join("\n");
 
   return `:root {\n${declarations}\n}\n`;
 }
@@ -242,9 +244,13 @@ export function BrandProvider({ children }: { children: React.ReactNode }) {
 It’s mounted once in `src/app/layout.tsx`, wrapping the whole app:
 
 ```tsx
-import { BrandProvider } from '@/providers/BrandProvider';
+import { BrandProvider } from "@/providers/BrandProvider";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
@@ -431,4 +437,3 @@ Verification checklist:
 - Brand tokens match expected (primary color + fonts)
 - Content matches `content/*.ts`
 - No console errors
-
