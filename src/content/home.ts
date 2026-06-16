@@ -6,17 +6,17 @@ export const homeContent: HomeContent = {
     headline: 'A minimal base for every vibe-coded site.',
     subheadline:
       'Clean structure, content-driven architecture, and a brand layer ready for any client. Swap colors, fonts, and copy — nothing else changes.',
-    ctaText: 'Start a project',
-    ctaLink: '/contact',
-    secondaryCtaText: 'Learn more',
-    secondaryCtaLink: '/about',
+    ctaLabel: 'Start a project',
+    ctaHref: '/contact',
+    secondaryCtaLabel: 'Learn more',
+    secondaryCtaHref: '/about',
     backgroundImage:
       'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1600&h=900&fit=crop&q=80',
   },
   services: {
     eyebrow: "What's included",
-    headline: 'Every layer, already built.',
-    subheadline:
+    heading: 'Every layer, already built.',
+    subheading:
       'Six core conventions that make every OhhWells site consistent, editable, and fast to launch.',
     items: [
       {
@@ -59,7 +59,7 @@ export const homeContent: HomeContent = {
   },
   about: {
     eyebrow: 'About this template',
-    headline: 'Built once. Customised forever.',
+    heading: 'Built once. Customised forever.',
     body: [
       'The OhhWells starter is a neutral canvas — no opinionated colors, no industry-specific imagery. It gives you the architecture: brand tokens, content conventions, typed props, and App Router scaffolding.',
       'From here, every site fork gets a unique brand, real photography, and genuine copy — all while staying compatible with the OhhWells editor.',
@@ -74,7 +74,7 @@ export const homeContent: HomeContent = {
   },
   testimonials: {
     eyebrow: 'Testimonials',
-    headline: 'Builders who rely on it.',
+    heading: 'Builders who rely on it.',
     items: [
       {
         quote:
@@ -104,9 +104,9 @@ export const homeContent: HomeContent = {
     headline: 'Fork it. Brand it. Ship it.',
     subheadline:
       'The base template is your starting point. Every client gets a unique skin on top of the same solid architecture.',
-    ctaText: 'Start a project',
-    ctaLink: '/contact',
-    secondaryCtaText: 'View on GitHub',
-    secondaryCtaLink: '#',
+    ctaLabel: 'Start a project',
+    ctaHref: '/contact',
+    secondaryCtaLabel: 'View on GitHub',
+    secondaryCtaHref: '#',
   },
 };

@@ -23,7 +23,7 @@ export default function ServicesPage() {
       </section>
       <Services
         items={servicesContent.services}
-        headline=""
+        heading=""
       />
     </>
   );

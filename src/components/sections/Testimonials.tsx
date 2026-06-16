@@ -3,17 +3,17 @@ import type { TestimonialItem } from '@/types/content';
 
 interface TestimonialsProps {
   eyebrow?: string;
-  headline: string;
+  heading: string;
   items: TestimonialItem[];
 }
 
-export function Testimonials({ eyebrow, headline, items }: TestimonialsProps) {
+export function Testimonials({ eyebrow, heading, items }: TestimonialsProps) {
   return (
     <section className="testimonials">
       <Container>
         <div className="testimonials__header">
           {eyebrow && <p className="eyebrow eyebrow--accent">{eyebrow}</p>}
-          <h2 className="section-heading section-heading--light">{headline}</h2>
+          <h2 className="section-heading section-heading--light">{heading}</h2>
         </div>
 
         <div className="testimonials__grid">

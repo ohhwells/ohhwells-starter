@@ -6,11 +6,11 @@ export default function Loading() {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '60vh',
-        fontFamily: 'var(--font-body)',
+        fontFamily: 'var(--brand-font-body)',
         fontSize: '0.85rem',
         letterSpacing: '0.1em',
         textTransform: 'uppercase' as const,
-        color: 'var(--color-textMuted)',
+        color: 'var(--brand-text-muted)',
       }}
     >
       Loading...

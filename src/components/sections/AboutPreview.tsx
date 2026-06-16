@@ -3,7 +3,7 @@ import type { AboutPreviewContent } from '@/types/content';
 
 export function AboutPreview({
   eyebrow,
-  headline,
+  heading,
   body,
   stats,
   image,
@@ -23,7 +23,7 @@ export function AboutPreview({
           {/* Text */}
           <div className="about-preview__text">
             {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-            <h2 className="section-heading">{headline}</h2>
+            <h2 className="section-heading">{heading}</h2>
 
             {body.map((paragraph, i) => (
               <p key={i} className="about-preview__body">

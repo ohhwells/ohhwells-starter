@@ -3,21 +3,21 @@ import type { ServiceItem } from '@/types/content';
 
 interface ServicesProps {
   eyebrow?: string;
-  headline: string;
-  subheadline?: string;
+  heading: string;
+  subheading?: string;
   items: ServiceItem[];
 }
 
-export function Services({ eyebrow, headline, subheadline, items }: ServicesProps) {
+export function Services({ eyebrow, heading, subheading, items }: ServicesProps) {
   return (
     <section className="services">
       <Container>
         <div className="services__header">
           <div>
             {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-            <h2 className="section-heading">{headline}</h2>
+            <h2 className="section-heading">{heading}</h2>
           </div>
-          {subheadline && <p className="services__sub">{subheadline}</p>}
+          {subheading && <p className="services__sub">{subheading}</p>}
         </div>
 
         <div className="services__grid">

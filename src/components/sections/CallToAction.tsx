@@ -6,10 +6,10 @@ export function CallToAction({
   eyebrow,
   headline,
   subheadline,
-  ctaText,
-  ctaLink,
-  secondaryCtaText,
-  secondaryCtaLink,
+  ctaLabel,
+  ctaHref,
+  secondaryCtaLabel,
+  secondaryCtaHref,
 }: CTAContent) {
   return (
     <section className="cta-section">
@@ -19,10 +19,10 @@ export function CallToAction({
           <h2 className="cta-section__headline">{headline}</h2>
           <p className="cta-section__sub">{subheadline}</p>
           <div className="cta-section__actions">
-            <Button href={ctaLink}>{ctaText}</Button>
-            {secondaryCtaText && secondaryCtaLink && (
-              <Button href={secondaryCtaLink} variant="secondary">
-                {secondaryCtaText}
+            <Button href={ctaHref}>{ctaLabel}</Button>
+            {secondaryCtaLabel && secondaryCtaHref && (
+              <Button href={secondaryCtaHref} variant="secondary">
+                {secondaryCtaLabel}
               </Button>
             )}
           </div>
