@@ -6,10 +6,10 @@ export interface HeroContent {
   eyebrow?: string;
   headline: string;
   subheadline: string;
-  ctaText: string;
-  ctaLink: string;
-  secondaryCtaText?: string;
-  secondaryCtaLink?: string;
+  ctaLabel: string;
+  ctaHref: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
   backgroundImage?: string;
 }
 
@@ -32,10 +32,10 @@ export interface CTAContent {
   eyebrow?: string;
   headline: string;
   subheadline: string;
-  ctaText: string;
-  ctaLink: string;
-  secondaryCtaText?: string;
-  secondaryCtaLink?: string;
+  ctaLabel: string;
+  ctaHref: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
 }
 
 export interface StatItem {
@@ -45,7 +45,7 @@ export interface StatItem {
 
 export interface AboutPreviewContent {
   eyebrow?: string;
-  headline: string;
+  heading: string;
   body: string[];
   stats?: StatItem[];
   image?: string;
@@ -85,14 +85,14 @@ export interface HomeContent {
   hero: HeroContent;
   services: {
     eyebrow?: string;
-    headline: string;
-    subheadline?: string;
+    heading: string;
+    subheading?: string;
     items: ServiceItem[];
   };
   about: AboutPreviewContent;
   testimonials: {
     eyebrow?: string;
-    headline: string;
+    heading: string;
     items: TestimonialItem[];
   };
   cta: CTAContent;
@@ -140,6 +140,12 @@ export interface BrandColors {
   text: string;
   textMuted: string;
   border: string;
+  onPrimary: string;
+  primarySurface: string;
+  primaryBorder: string;
+  onPrimaryMuted: string;
+  onPrimaryFaint: string;
+  navbarBackground: string;
 }
 
 export interface BrandFonts {

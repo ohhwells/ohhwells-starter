@@ -10,6 +10,12 @@ export const brand: Brand = {
     text: '#0F0F0F',
     textMuted: '#888880',
     border: '#E8E8E4',
+    onPrimary: '#FFFFFF',
+    primarySurface: 'rgba(15, 15, 15, 0.06)',
+    primaryBorder: 'rgba(255, 255, 255, 0.10)',
+    onPrimaryMuted: 'rgba(255, 255, 255, 0.72)',
+    onPrimaryFaint: 'rgba(255, 255, 255, 0.48)',
+    navbarBackground: 'rgba(255, 255, 255, 0.85)',
   },
   fonts: {
     heading: "'DM Serif Display', serif",

@@ -6,10 +6,10 @@ export function Hero({
   eyebrow,
   headline,
   subheadline,
-  ctaText,
-  ctaLink,
-  secondaryCtaText,
-  secondaryCtaLink,
+  ctaLabel,
+  ctaHref,
+  secondaryCtaLabel,
+  secondaryCtaHref,
   backgroundImage,
 }: HeroContent) {
   return (
@@ -22,10 +22,10 @@ export function Hero({
         <p className="hero__sub">{subheadline}</p>
 
         <div className="hero__actions">
-          <Button href={ctaLink}>{ctaText}</Button>
-          {secondaryCtaText && secondaryCtaLink && (
-            <Button href={secondaryCtaLink} variant="ghost">
-              {secondaryCtaText} <span aria-hidden="true">&rarr;</span>
+          <Button href={ctaHref}>{ctaLabel}</Button>
+          {secondaryCtaLabel && secondaryCtaHref && (
+            <Button href={secondaryCtaHref} variant="ghost">
+              {secondaryCtaLabel} <span aria-hidden="true">&rarr;</span>
             </Button>
           )}
         </div>
