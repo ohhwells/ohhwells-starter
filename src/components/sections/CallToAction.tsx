@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/Button';
 import type { CTAContent } from '@/types/content';
 
 export function CallToAction({
-  eyebrow,
   headline,
   subheadline,
   ctaLabel,
@@ -15,7 +14,6 @@ export function CallToAction({
     <section className="cta-section">
       <Container>
         <div className="cta-section__inner">
-          {eyebrow && <p className="eyebrow">{eyebrow}</p>}
           <h2 className="cta-section__headline">{headline}</h2>
           <p className="cta-section__sub">{subheadline}</p>
           <div className="cta-section__actions">
