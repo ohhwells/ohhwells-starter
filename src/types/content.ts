@@ -24,7 +24,6 @@ export interface TestimonialItem {
 }
 
 export interface CTAContent {
-  eyebrow?: string;
   headline: string;
   subheadline?: string;
   ctaLabel: string;
