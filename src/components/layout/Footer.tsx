@@ -1,28 +1,33 @@
 import Link from 'next/link';
 import { Container } from './Container';
-import type { FooterContent, SocialLink, NavItem } from '@/types/content';
+import type { FooterContent, SocialLink } from '@/types/content';
+import Image from 'next/image';
 
 interface FooterProps {
   content: FooterContent;
   socials: SocialLink[];
-  navItems?: NavItem[];
   logoText?: string;
 }
 
-export function Footer({ content, socials, navItems, logoText }: FooterProps) {
+export function Footer({ content, socials, logoText }: FooterProps) {
   return (
     <footer className="footer">
       <Container>
         <div className="footer__inner">
-          {/* Logo */}
           <Link href="/" className="footer__logo">
-            {logoText || 'ohhwells'}
+            {content.logoUrl ? (
+              <Image
+                src={content.logoUrl}
+                alt={logoText || 'ohhwells'}
+              />
+            ) : (
+              logoText || 'ohhwells'
+            )}
           </Link>
 
-          {/* Nav links */}
-          {navItems && (
+          {content.links.length > 0 && (
             <nav className="footer__nav">
-              {navItems.map((item) => (
+              {content.links.map((item) => (
                 <Link key={item.href} href={item.href} className="footer__link">
                   {item.label}
                 </Link>
@@ -30,8 +35,7 @@ export function Footer({ content, socials, navItems, logoText }: FooterProps) {
             </nav>
           )}
 
-          {/* Copyright */}
-          <p className="footer__copyright">{content.copyright}</p>
+          <p className="footer__copyright">{content.copyrightText}</p>
         </div>
       </Container>
     </footer>

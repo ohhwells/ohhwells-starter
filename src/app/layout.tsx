@@ -25,7 +25,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer
             content={globalContent.footer}
             socials={globalContent.socials}
-            navItems={globalContent.navItems}
             logoText={globalContent.logo.text}
           />
         </BrandProvider>
