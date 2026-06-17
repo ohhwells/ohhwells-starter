@@ -61,6 +61,8 @@ export const homeContent: HomeContent = {
   testimonials: {
     eyebrow: 'Testimonials',
     heading: 'Builders who rely on it.',
+    subheading:
+      'Developers who build on OhhWells trust the base template. Clients who use it love the flexibility.',
     items: [
       {
         quote:
