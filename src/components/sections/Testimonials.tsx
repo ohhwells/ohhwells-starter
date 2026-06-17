@@ -5,16 +5,18 @@ import Image from 'next/image';
 interface TestimonialsProps {
   eyebrow?: string;
   heading: string;
+  subheading?: string;
   items: TestimonialItem[];
 }
 
-export function Testimonials({ eyebrow, heading, items }: TestimonialsProps) {
+export function Testimonials({ eyebrow, heading, subheading, items }: TestimonialsProps) {
   return (
     <section className="testimonials">
       <Container>
         <div className="testimonials__header">
           {eyebrow && <p className="eyebrow eyebrow--accent">{eyebrow}</p>}
           <h2 className="section-heading section-heading--light">{heading}</h2>
+          {subheading && <p className="section-subheading">{subheading}</p>}
         </div>
 
         <div className="testimonials__grid">

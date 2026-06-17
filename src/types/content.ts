@@ -19,14 +19,14 @@ export interface ServiceItem {
 export interface TestimonialItem {
   quote: string;
   author: string;
-  role: string;
+  role?: string;
   photoUrl?: string;
 }
 
 export interface CTAContent {
   eyebrow?: string;
   headline: string;
-  subheadline: string;
+  subheadline?: string;
   ctaLabel: string;
   ctaHref: string;
   secondaryCtaLabel?: string;
@@ -87,6 +87,7 @@ export interface HomeContent {
   testimonials: {
     eyebrow?: string;
     heading: string;
+    subheading?: string;
     items: TestimonialItem[];
   };
   cta: CTAContent;
