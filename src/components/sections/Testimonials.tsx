@@ -1,5 +1,6 @@
 import { Container } from '@/components/layout/Container';
 import type { TestimonialItem } from '@/types/content';
+import Image from 'next/image';
 
 interface TestimonialsProps {
   eyebrow?: string;
@@ -21,8 +22,12 @@ export function Testimonials({ eyebrow, heading, items }: TestimonialsProps) {
             <div key={i} className="testimonials__card">
               <p className="testimonials__quote">&ldquo;{item.quote}&rdquo;</p>
               <div className="testimonials__author">
-                {item.initials && (
-                  <div className="testimonials__avatar">{item.initials}</div>
+                {item.photoUrl && (
+                  <Image
+                    src={item.photoUrl}
+                    alt=""
+                    className="testimonials__avatar"
+                  />
                 )}
                 <div>
                   <div className="testimonials__name">{item.author}</div>

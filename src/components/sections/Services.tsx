@@ -1,5 +1,6 @@
 import { Container } from '@/components/layout/Container';
 import type { ServiceItem } from '@/types/content';
+import Image from 'next/image';
 
 interface ServicesProps {
   eyebrow?: string;
@@ -23,7 +24,13 @@ export function Services({ eyebrow, heading, subheading, items }: ServicesProps)
         <div className="services__grid">
           {items.map((item, i) => (
             <div key={i} className="services__card">
-              {item.num && <span className="services__num">{item.num}</span>}
+              {item.iconUrl && (
+                <Image
+                  src={item.iconUrl}
+                  alt=""
+                  className="services__icon"
+                />
+              )}
               <h3 className="services__title">{item.title}</h3>
               <p className="services__desc">{item.description}</p>
             </div>

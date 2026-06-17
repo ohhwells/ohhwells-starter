@@ -17,7 +17,13 @@ export const globalContent: GlobalContent = {
   },
   footer: {
     tagline: 'A minimal base for every vibe-coded site.',
-    copyright: '© 2026 OhhWells. All rights reserved.',
+    copyrightText: '© 2026 OhhWells. All rights reserved.',
+    links: [
+      { label: 'Home', href: '/' },
+      { label: 'About', href: '/about' },
+      { label: 'Services', href: '/services' },
+      { label: 'Contact', href: '/contact' },
+    ],
   },
   socials: [
     { platform: 'instagram', url: 'https://instagram.com/ohhwells' },

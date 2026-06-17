@@ -3,29 +3,24 @@
 // The OhhWells Content API will serve data matching these interfaces.
 
 export interface HeroContent {
-  eyebrow?: string;
   headline: string;
   subheadline: string;
   ctaLabel: string;
   ctaHref: string;
-  secondaryCtaLabel?: string;
-  secondaryCtaHref?: string;
-  backgroundImage?: string;
+  backgroundImageUrl?: string;
 }
 
 export interface ServiceItem {
-  num?: string;
   title: string;
   description: string;
-  icon?: string;
+  iconUrl?: string;
 }
 
 export interface TestimonialItem {
   quote: string;
   author: string;
   role: string;
-  avatar?: string;
-  initials?: string;
+  photoUrl?: string;
 }
 
 export interface CTAContent {
@@ -44,11 +39,10 @@ export interface StatItem {
 }
 
 export interface AboutPreviewContent {
-  eyebrow?: string;
   heading: string;
   body: string[];
-  stats?: StatItem[];
-  image?: string;
+  imageUrl: string;
+  imagePosition: 'left' | 'right';
 }
 
 export interface ServicesPageContent {
@@ -115,9 +109,16 @@ export interface LogoConfig {
   image?: string;
 }
 
+export interface FooterLink {
+  label: string;
+  href: string;
+}
+
 export interface FooterContent {
-  tagline: string;
-  copyright: string;
+  logoUrl?: string;
+  tagline?: string;
+  copyrightText: string;
+  links: FooterLink[];
 }
 
 export interface GlobalContent {
