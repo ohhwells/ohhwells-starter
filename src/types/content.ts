@@ -1,14 +1,6 @@
 // ─── Content Types ─────────────────────────────────────────────────────────
-// Every content file imports its shape from here.
-// The OhhWells Content API will serve data matching these interfaces.
-
-export interface HeroContent {
-  headline: string;
-  subheadline: string;
-  ctaLabel: string;
-  ctaHref: string;
-  backgroundImageUrl?: string;
-}
+// Page-specific types live in section layout folders.
+// Shared page-level types used across multiple pages remain here.
 
 export interface ServiceItem {
   title: string;
@@ -16,32 +8,9 @@ export interface ServiceItem {
   iconUrl?: string;
 }
 
-export interface TestimonialItem {
-  quote: string;
-  author: string;
-  role?: string;
-  photoUrl?: string;
-}
-
-export interface CTAContent {
-  headline: string;
-  subheadline?: string;
-  ctaLabel: string;
-  ctaHref: string;
-  secondaryCtaLabel?: string;
-  secondaryCtaHref?: string;
-}
-
 export interface StatItem {
   value: string;
   label: string;
-}
-
-export interface AboutPreviewContent {
-  heading: string;
-  body: string[];
-  imageUrl: string;
-  imagePosition: 'left' | 'right';
 }
 
 export interface ServicesPageContent {
@@ -57,39 +26,6 @@ export interface AboutPageContent {
   body: string[];
   image?: string;
   stats?: StatItem[];
-}
-
-export interface ContactPageContent {
-  eyebrow?: string;
-  headline: string;
-  subheadline: string;
-  fields: ContactField[];
-  submitText: string;
-}
-
-export interface ContactField {
-  name: string;
-  placeholder: string;
-  type: 'text' | 'email' | 'textarea';
-  required?: boolean;
-}
-
-export interface HomeContent {
-  hero: HeroContent;
-  services: {
-    eyebrow?: string;
-    heading: string;
-    subheading?: string;
-    items: ServiceItem[];
-  };
-  about: AboutPreviewContent;
-  testimonials: {
-    eyebrow?: string;
-    heading: string;
-    subheading?: string;
-    items: TestimonialItem[];
-  };
-  cta: CTAContent;
 }
 
 // ─── Global Types ──────────────────────────────────────────────────────────
@@ -115,10 +51,14 @@ export interface FooterLink {
 }
 
 export interface FooterContent {
-  logoUrl?: string;
-  tagline?: string;
-  copyrightText: string;
-  links: FooterLink[];
+  layout: 'minimal';
+  content: {
+    logoUrl?: string;
+    tagline?: string;
+    copyrightText: string;
+    links: FooterLink[];
+    socials?: SocialLink[];
+  };
 }
 
 export interface GlobalContent {

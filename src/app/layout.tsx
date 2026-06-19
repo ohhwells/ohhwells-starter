@@ -1,6 +1,6 @@
 import { BrandProvider } from '@/components/layout/BrandProvider';
 import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
+import { FooterLayouts } from '@/components/layout/Footer';
 import { globalContent } from '@/content/global';
 import { fontClasses } from '@/lib/fonts';
 import { buildMetadata } from '@/lib/seo';
@@ -12,6 +12,8 @@ export const metadata = buildMetadata({
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const Footer = FooterLayouts[globalContent.footer.layout].component;
+
   return (
     <html lang="en" className={fontClasses}>
       <body>
@@ -22,11 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             ctaButton={globalContent.ctaButton}
           />
           <main>{children}</main>
-          <Footer
-            content={globalContent.footer}
-            socials={globalContent.socials}
-            logoText={globalContent.logo.text}
-          />
+          <Footer content={globalContent.footer.content} logoText={globalContent.logo.text} />
         </BrandProvider>
       </body>
     </html>
