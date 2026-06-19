@@ -1,7 +1,5 @@
 import { contactContent } from '@/content/contact';
-import { Container } from '@/components/layout/Container';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import { ContactLayouts } from '@/components/sections/Contact';
 import { buildMetadata } from '@/lib/seo';
 
 export const metadata = buildMetadata({
@@ -11,27 +9,7 @@ export const metadata = buildMetadata({
 });
 
 export default function ContactPage() {
-  return (
-    <section className="page-section">
-      <Container>
-        {contactContent.eyebrow && (
-          <p className="eyebrow">{contactContent.eyebrow}</p>
-        )}
-        <h1 className="page-section__headline">{contactContent.headline}</h1>
+  const Contact = ContactLayouts[contactContent.layout].component;
 
-        <form className="contact-form">
-          {contactContent.fields.map((field) => (
-            <Input
-              key={field.name}
-              name={field.name}
-              placeholder={field.placeholder}
-              type={field.type}
-              required={field.required}
-            />
-          ))}
-          <Button type="submit">{contactContent.submitText}</Button>
-        </form>
-      </Container>
-    </section>
-  );
+  return <Contact content={contactContent.content} />;
 }

@@ -1,5 +1,5 @@
 import { servicesContent } from '@/content/services';
-import { Services } from '@/components/sections/Services';
+import { ServicesLayouts } from '@/components/sections/Services';
 import { Container } from '@/components/layout/Container';
 import { buildMetadata } from '@/lib/seo';
 
@@ -10,6 +10,8 @@ export const metadata = buildMetadata({
 });
 
 export default function ServicesPage() {
+  const Services = ServicesLayouts.grid.component;
+
   return (
     <>
       <section className="page-section">
@@ -22,8 +24,10 @@ export default function ServicesPage() {
         </Container>
       </section>
       <Services
-        items={servicesContent.services}
-        heading=""
+        content={{
+          heading: '',
+          items: servicesContent.services,
+        }}
       />
     </>
   );
