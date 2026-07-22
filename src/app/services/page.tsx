@@ -14,13 +14,33 @@ export default function ServicesPage() {
 
   return (
     <>
-      <section className="page-section">
+      <section
+        className="page-section"
+        data-ohw-section="services-page"
+        data-ohw-section-label="Services Page Header"
+      >
         <Container>
           {servicesContent.eyebrow && (
-            <p className="eyebrow">{servicesContent.eyebrow}</p>
+            <p className="eyebrow" data-ohw-editable="plain" data-ohw-key="services-page-eyebrow">
+              {servicesContent.eyebrow}
+            </p>
           )}
-          <h1 className="page-section__headline">{servicesContent.headline}</h1>
-          <p className="page-section__body">{servicesContent.subheadline}</p>
+          <h1
+            className="page-section__headline"
+            data-ohw-editable="text"
+            data-ohw-key="services-page-headline"
+            data-ohw-max-length="80"
+          >
+            {servicesContent.headline}
+          </h1>
+          <p
+            className="page-section__body"
+            data-ohw-editable="text"
+            data-ohw-key="services-page-subheadline"
+            data-ohw-max-length="160"
+          >
+            {servicesContent.subheadline}
+          </p>
         </Container>
       </section>
       <Services

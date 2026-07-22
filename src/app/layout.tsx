@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+import { OhhwellsBridge } from '@ohhwells/bridge';
 import { BrandProvider } from '@/components/layout/BrandProvider';
 import { Navbar } from '@/components/layout/Navbar';
 import { FooterLayouts } from '@/components/layout/Footer';
@@ -5,6 +7,7 @@ import { globalContent } from '@/content/global';
 import { fontClasses } from '@/lib/fonts';
 import { buildMetadata } from '@/lib/seo';
 import '@/styles/globals.css';
+import '@ohhwells/bridge/styles';
 
 export const metadata = buildMetadata({
   title: 'Home',
@@ -17,6 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={fontClasses}>
       <body>
+        <Suspense>
+          <OhhwellsBridge />
+        </Suspense>
         <BrandProvider>
           <Navbar
             items={globalContent.navItems}

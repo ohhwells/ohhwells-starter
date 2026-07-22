@@ -91,6 +91,10 @@ To reskin the entire site, edit `brand.ts`. Nothing else needs to change.
 
 After handoff, developers own the code (components, layout, logic) and the platform owns the data (content files, brand settings). Clients edit content and brand through the OhhWells editor without touching code. Developers redeploy code without overwriting client data.
 
+### 4. Canvas Editor (Bridge)
+
+`@ohhwells/bridge` is wired into `app/layout.tsx` and reads `data-ohw-*` attributes to make elements editable in the OhhWells canvas editor — inline text, images, background images, and link destinations, no code changes needed by the client. Every section in this starter is already tagged. See **[VIBECODER.md](VIBECODER.md)** for the full attribute contract and the key-naming scheme this repo uses, before adding a new section.
+
 ## Forking for a New Client
 
 1. Copy this template

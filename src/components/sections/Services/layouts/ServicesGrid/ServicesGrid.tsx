@@ -9,14 +9,44 @@ interface ServicesGridProps {
 
 export function ServicesGrid({ content }: ServicesGridProps) {
   return (
-    <section className="services-grid">
+    <section
+      className="services-grid"
+      data-ohw-section="services"
+      data-ohw-section-label="Services"
+    >
       <Container>
         <div className="services-grid__header">
           <div>
-            {content.eyebrow && <p className="services-grid__eyebrow">{content.eyebrow}</p>}
-            {content.heading && <h2 className="services-grid__heading">{content.heading}</h2>}
+            {content.eyebrow && (
+              <p
+                className="services-grid__eyebrow"
+                data-ohw-editable="plain"
+                data-ohw-key="services-eyebrow"
+              >
+                {content.eyebrow}
+              </p>
+            )}
+            {content.heading && (
+              <h2
+                className="services-grid__heading"
+                data-ohw-editable="text"
+                data-ohw-key="services-heading"
+                data-ohw-max-length="80"
+              >
+                {content.heading}
+              </h2>
+            )}
           </div>
-          {content.subheading && <p className="services-grid__sub">{content.subheading}</p>}
+          {content.subheading && (
+            <p
+              className="services-grid__sub"
+              data-ohw-editable="text"
+              data-ohw-key="services-subheading"
+              data-ohw-max-length="160"
+            >
+              {content.subheading}
+            </p>
+          )}
         </div>
 
         <div className="services-grid__grid">
@@ -29,10 +59,24 @@ export function ServicesGrid({ content }: ServicesGridProps) {
                   width={32}
                   height={32}
                   className="services-grid__icon"
+                  data-ohw-editable="image"
+                  data-ohw-key={`services-item-${i}-icon`}
                 />
               )}
-              <h3 className="services-grid__title">{item.title}</h3>
-              <p className="services-grid__desc">{item.description}</p>
+              <h3
+                className="services-grid__title"
+                data-ohw-editable="plain"
+                data-ohw-key={`services-item-${i}-title`}
+              >
+                {item.title}
+              </h3>
+              <p
+                className="services-grid__desc"
+                data-ohw-editable="text"
+                data-ohw-key={`services-item-${i}-desc`}
+              >
+                {item.description}
+              </p>
             </div>
           ))}
         </div>

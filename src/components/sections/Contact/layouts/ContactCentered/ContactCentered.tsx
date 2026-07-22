@@ -10,11 +10,31 @@ interface ContactCenteredProps {
 
 export function ContactCentered({ content }: ContactCenteredProps) {
   return (
-    <section className="contact-centered">
+    <section
+      className="contact-centered"
+      data-ohw-section="contact"
+      data-ohw-section-label="Contact"
+    >
       <Container>
         <div className="contact-centered__header">
-          <h1 className="contact-centered__heading">{content.heading}</h1>
-          {content.subheading && <p className="contact-centered__sub">{content.subheading}</p>}
+          <h1
+            className="contact-centered__heading"
+            data-ohw-editable="text"
+            data-ohw-key="contact-heading"
+            data-ohw-max-length="80"
+          >
+            {content.heading}
+          </h1>
+          {content.subheading && (
+            <p
+              className="contact-centered__sub"
+              data-ohw-editable="text"
+              data-ohw-key="contact-subheading"
+              data-ohw-max-length="160"
+            >
+              {content.subheading}
+            </p>
+          )}
         </div>
 
         <form className="contact-centered__form">

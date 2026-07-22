@@ -18,19 +18,43 @@ function getInitials(name: string): string {
 
 export function TestimonialsGrid({ content }: TestimonialsGridProps) {
   return (
-    <section className="testimonials-grid">
+    <section
+      className="testimonials-grid"
+      data-ohw-section="testimonials"
+      data-ohw-section-label="Testimonials"
+    >
       <Container>
         <div className="testimonials-grid__header">
-          <h2 className="testimonials-grid__heading">{content.heading}</h2>
+          <h2
+            className="testimonials-grid__heading"
+            data-ohw-editable="text"
+            data-ohw-key="testimonials-heading"
+            data-ohw-max-length="80"
+          >
+            {content.heading}
+          </h2>
           {content.subheading && (
-            <p className="testimonials-grid__sub">{content.subheading}</p>
+            <p
+              className="testimonials-grid__sub"
+              data-ohw-editable="text"
+              data-ohw-key="testimonials-subheading"
+              data-ohw-max-length="160"
+            >
+              {content.subheading}
+            </p>
           )}
         </div>
 
         <div className="testimonials-grid__grid">
           {content.items.map((item, i) => (
             <div key={i} className="testimonials-grid__card">
-              <p className="testimonials-grid__quote">&ldquo;{item.quote}&rdquo;</p>
+              <p
+                className="testimonials-grid__quote"
+                data-ohw-editable="text"
+                data-ohw-key={`testimonials-item-${i}-quote`}
+              >
+                &ldquo;{item.quote}&rdquo;
+              </p>
               <div className="testimonials-grid__author">
                 {item.photoUrl ? (
                   <Image
@@ -39,13 +63,29 @@ export function TestimonialsGrid({ content }: TestimonialsGridProps) {
                     width={36}
                     height={36}
                     className="testimonials-grid__photo"
+                    data-ohw-editable="image"
+                    data-ohw-key={`testimonials-item-${i}-photo`}
                   />
                 ) : (
                   <div className="testimonials-grid__avatar">{getInitials(item.author)}</div>
                 )}
                 <div>
-                  <div className="testimonials-grid__name">{item.author}</div>
-                  {item.role && <div className="testimonials-grid__role">{item.role}</div>}
+                  <div
+                    className="testimonials-grid__name"
+                    data-ohw-editable="plain"
+                    data-ohw-key={`testimonials-item-${i}-author`}
+                  >
+                    {item.author}
+                  </div>
+                  {item.role && (
+                    <div
+                      className="testimonials-grid__role"
+                      data-ohw-editable="plain"
+                      data-ohw-key={`testimonials-item-${i}-role`}
+                    >
+                      {item.role}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

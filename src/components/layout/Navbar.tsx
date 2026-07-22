@@ -15,23 +15,40 @@ export function Navbar({ items, logo, ctaButton }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="navbar">
+    <header className="navbar" data-ohw-nav-root="">
       <div className="navbar__inner">
         {/* Logo */}
         <Link href="/" className="navbar__logo">
-          {logo.text}
+          <span data-ohw-editable="plain" data-ohw-key="nav-logo-text">
+            {logo.text}
+          </span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="navbar__nav">
-          {items.map((item) => (
-            <Link key={item.href} href={item.href} className="navbar__link">
-              {item.label}
+        <nav className="navbar__nav" data-ohw-nav-container="">
+          {items.map((item, i) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              data-ohw-href-key={`nav-${i}-href`}
+              className="navbar__link"
+            >
+              <span data-ohw-editable="text" data-ohw-key={`nav-${i}-label`}>
+                {item.label}
+              </span>
             </Link>
           ))}
           {ctaButton && (
-            <Link href={ctaButton.href} className="navbar__cta">
-              {ctaButton.label}
+            <Link
+              href={ctaButton.href}
+              data-ohw-href-key="nav-cta-href"
+              data-ohw-role="navbar-button"
+              data-ohw-drag-disabled="true"
+              className="navbar__cta"
+            >
+              <span data-ohw-editable="text" data-ohw-key="nav-cta-label">
+                {ctaButton.label}
+              </span>
             </Link>
           )}
         </nav>
@@ -50,6 +67,7 @@ export function Navbar({ items, logo, ctaButton }: NavbarProps) {
 
       <MobileMenu
         items={items}
+        ctaButton={ctaButton}
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
       />
